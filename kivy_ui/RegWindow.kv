@@ -1,0 +1,57 @@
+<RegWindow>:
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: 10
+        padding: 10
+        canvas.before:
+            Color:
+                rgba: 0.15, 0.15, 0.15, 1  # Серый цвет фона (R, G, B, A)
+            Rectangle:
+                size: 10000, 10000
+        size_hint_y: None
+        pos_hint: {'center_x': 0.5, 'center_y': 0.4}
+
+        Label:
+            pos_hint: {'center_x': 0.5, 'center_y': 0}
+            text: 'Регистрация'
+            size_hint_y: None
+            font_size: 50
+            height: '300dp'
+
+
+        BoxLayout:
+            spacing: 10
+            padding: 10
+            orientation: 'horizontal'
+
+            CheckBox:
+                group: 'group'
+                active: True
+                id: option1
+                on_state: app.on_radio_state(option1.id, self.state)
+
+            Label:
+                text: 'Водитель'
+                size_hint_x: 0.5
+
+        BoxLayout:
+            spacing: 10
+            padding: 10
+            orientation: 'horizontal'
+            CheckBox:
+                group: 'group'
+                id: option2
+                on_state: app.on_radio_state(option2.id, self.state)
+
+            Label:
+                text: 'Клиент'
+                size_hint_x: 0.5
+
+        Button:
+            id: enter
+            text: 'Подтвердить'
+            on_press: root.login(self)
+            size_hint: None, None
+            height: '30dp'
+            width: root.width * 0.5
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
