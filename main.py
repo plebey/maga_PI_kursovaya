@@ -1,5 +1,12 @@
+# -*- coding: utf-8 -*-
 import random
 import sys
+
+from sqlalchemy import select, text, desc
+from sqlalchemy.orm import aliased
+
+from models import sql_model
+from models.sql_model import OrderService, Car, Client, Order, Street, District, Taximetr, Driver
 from utils.db_connect import sql_connect, mongo_connect, clickhouse_connect
 from modules.export_db import export_mssql_to_clickhouse, export_mssql_to_mongo
 from modules.exec_requests import sql_requests, clickhouse_requests, mongo_requests
@@ -9,7 +16,6 @@ from PyQt6.QtWidgets import QApplication
 
 
 if __name__ == '__main__':
-
     # Подключение к MS SQL
     session_sql, metadata = sql_connect()
     engine = session_sql.get_bind()
@@ -23,6 +29,100 @@ if __name__ == '__main__':
         'sql': session_sql,
         'mongo': collection_mongo
     }
+
+    # username_to_query = 'client'
+    # users_with_desired_username = dbconn['sql'].query(sql_model.Client).filter(sql_model.Client.login == username_to_query).all()
+    # print(users_with_desired_username)
+    # for user in users_with_desired_username:
+    #     print(f"User ID: {user.id}, Username: {user.login}, Email: {user.name}")
+
+    # last_id = dbconn['sql'].query(sql_model.Client).order_by(desc(sql_model.Client.id)).first().id
+    # new_client = sql_model.Client(
+    #     id=last_id+1,
+    #     login='login',
+    #     pswd='login',
+    #     name='login',
+    #     ph_num='login',
+    # )
+    # # Добавьте нового клиента в сессию
+    # dbconn['sql'].add(new_client)
+    # # Закоммитить изменения в базе данных
+    # dbconn['sql'].commit()
+
+    # query_result = (
+    #     dbconn['sql']
+    #     .query(Client)
+    #     .filter(Client.id == 1)
+    #     .all()
+    # )
+    # orders = []
+    # for elem in query_result:
+    #     for i, order in enumerate(elem.orders):
+    #         for service in order.order_service:
+    #             price = 0
+    #             for tax in service.taximetr:
+    #                 price = price + (tax.value * tax.param.price)
+    #
+    #         orders.append({order.id: {
+    #             'time': order.order_time,
+    #             'board_street': order.boarding_st.name,
+    #             'board_dist': order.boarding_dist.name,
+    #             'board_house': order.boarding_house,
+    #             'drop_street': order.drop_st.name,
+    #             'drop_dist': order.drop_dist.name,
+    #             'drop_house': order.drop_house,
+    #             'status': order.status,
+    #             'driver': order.order_service[0].driver.name,
+    #             'car_num': order.order_service[0].driver.car_id,
+    #             'cost': price,
+    #         }})
+    # orders_str = []
+    # for i, ord in enumerate(orders):
+    #     # for order in ord:
+    #     for order in ord.values():
+    #         print(order)
+    #         orders_str.append(
+    #             f'''
+    #                     Заявка №{i + 1}:
+    #                     Время заявки: {order['time'].strftime("%Y-%m-%d %H:%M:%S")}
+    #                     Место посадки: {order['board_dist']} {order['board_street']} {order['board_house']}
+    #                     Место высадки: {order['drop_dist']} {order['drop_street']} {order['drop_house']}
+    #                     Водитель: {order['driver']}
+    #                     Номер авто: {order['car_num']}
+    #                     Сумма: {order['cost']}
+    #                     Статус: {order['status']}
+    #                     '''
+    #         )
+
+
+    # query_result = (
+    #     dbconn['sql']
+    #     .query(Client)
+    #     .filter(Client.id == 1)
+    #     .all()
+    # )
+    # orders = []
+    # for elem in query_result:
+    #     for i, order in enumerate(elem.orders):
+    #         for service in order.order_service:
+    #             price = 0
+    #             for tax in service.taximetr:
+    #                 price = price + (tax.value * tax.param.price)
+    #
+    #         orders.append({order.id: {
+    #             'time': order.order_time,
+    #             'board_street': order.boarding_st.name,
+    #             'board_dist': order.boarding_dist.name,
+    #             'board_house': order.boarding_house,
+    #             'drop_street': order.drop_st.name,
+    #             'drop_dist': order.drop_dist.name,
+    #             'drop_house': order.drop_house,
+    #             'status': order.status,
+    #             'driver': order.order_service[0].driver.name,
+    #             'car_num': order.order_service[0].driver.car_id,
+    #             'cost': price,
+    #         }})
+
 
 
     app = QApplication(sys.argv)

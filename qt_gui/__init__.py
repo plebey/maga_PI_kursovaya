@@ -1,2 +1,9 @@
 from qt_gui.loginWindow import MainWindow as LoginWindow
 from qt_gui.regWindow import RegWindow
+from qt_gui.accountClientWindow import AccountClientWindow
+from qt_gui.historyClientWindow import HistoryClientWindow
+from qt_gui.orderClientWindow import OrderClientWindow
+from qt_gui.accountDriverWindow import AccountDriverWindow
+from qt_gui.orderDriverWindow import OrderDriverWindow
+from qt_gui.historyDriverWindow import HistoryDriverWindow
+

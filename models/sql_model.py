@@ -6,7 +6,7 @@ Base = declarative_base()
 
 class Client(Base):
     __tablename__ = 'Клиенты'
-    id = Column('Код', Integer, primary_key=True)
+    id = Column('Код', Integer, primary_key=True, autoincrement=False)
     login = Column('Логин', String)
     pswd = Column('Пароль', String)
     name = Column('Имя', String)
@@ -23,7 +23,7 @@ StreetsDistricts = Table('УлицыРайоны', Base.metadata,
 
 class Street(Base):
     __tablename__ = 'Улицы'
-    id = Column('КодУлицы', Integer, primary_key=True)
+    id = Column('КодУлицы', Integer, primary_key=True, autoincrement=False)
     name = Column('Наименование', String)
     districts = relationship('District', secondary=StreetsDistricts, back_populates='streets')
     # orders1 = relationship('Order', back_populates='boarding_st')
@@ -32,7 +32,7 @@ class Street(Base):
 
 class District(Base):
     __tablename__ = 'Районы'
-    id = Column('КодРайона', Integer, primary_key=True)
+    id = Column('КодРайона', Integer, primary_key=True, autoincrement=False)
     name = Column('Наименование', String)
     streets = relationship('Street', secondary=StreetsDistricts, back_populates='districts')
     # orders1 = relationship('Order', back_populates='boarding_dist')
@@ -60,7 +60,7 @@ class Order(Base):
 
 class Car(Base):
     __tablename__ = 'Машины'
-    id = Column('ГосНомер', String, primary_key=True)
+    id = Column('ГосНомер', String, primary_key=True, autoincrement=False)
     name = Column('Марка', String)
     color = Column('Цвет', String)
     year = Column('ГодВыпуска', Integer)
@@ -68,10 +68,12 @@ class Car(Base):
 
 class Driver(Base):
     __tablename__ = 'Водители'
-    id = Column('Код', Integer, primary_key=True)
+    id = Column('Код', Integer, primary_key=True, autoincrement=False)
     surname = Column('Фамилия', String)
     name = Column('Имя', String)
     p_name = Column('Отчество', String)
+    login = Column('Логин', String)
+    pswd = Column('Пароль', String)
     birth_date = Column('ДатаРождения', Date)
     work_exp = Column('СтажРаботы', Integer)
     car_id = Column('ГосНомер', String, ForeignKey('Машины.ГосНомер'))
@@ -84,7 +86,7 @@ class Driver(Base):
 
 class OrderService(Base):
     __tablename__ = 'ОбслуживаниеЗаявок'
-    id = Column('Код', Integer, ForeignKey('Заявки.Код'), primary_key=True)
+    id = Column('Код', Integer, ForeignKey('Заявки.Код'), primary_key=True, autoincrement=False)
     order = relationship('Order', backref='order_service', uselist=False)
     driver_id = Column('Водитель', Integer, ForeignKey('Водители.Код'))
     driver = relationship('Driver', backref='order_service')
@@ -95,7 +97,7 @@ class OrderService(Base):
 
 class TaximetrTariff(Base):
     __tablename__ = 'ТарифыТаксометра'
-    id = Column('Код', Integer, primary_key=True)
+    id = Column('Код', Integer, primary_key=True, autoincrement=False)
     name = Column('НаименованиеПараметра', String)
     units = Column('ЕдИзм', String)
     price = Column('Цена', DECIMAL(precision=10, scale=2))
@@ -103,8 +105,8 @@ class TaximetrTariff(Base):
 
 class Taximetr(Base):
     __tablename__ = 'Таксометр'
-    order_id = Column('КодЗаявки', Integer, ForeignKey('Заявки.Код'), primary_key=True)
-    order = relationship('Order', backref='taximetr')
+    order_service_id = Column('КодЗаявки', Integer, ForeignKey('ОбслуживаниеЗаявок.Код'), primary_key=True, autoincrement=False)
+    order_service = relationship('OrderService', backref='taximetr')
     param_id = Column('КодПараметра', Integer, ForeignKey('ТарифыТаксометра.Код'), primary_key=True)
     param = relationship('TaximetrTariff', backref='taximetr')
     value = Column('Значение', DECIMAL(precision=10, scale=2))
