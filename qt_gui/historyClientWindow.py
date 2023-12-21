@@ -71,19 +71,22 @@ class HistoryClientWindow(QMainWindow):
                     for tax in service.taximetr:
                         price = price + (tax.value * tax.param.price)
 
-                orders.append({order.id: {
-                    'time': order.order_time,
-                    'board_street': order.boarding_st.name,
-                    'board_dist': order.boarding_dist.name,
-                    'board_house': order.boarding_house,
-                    'drop_street': order.drop_st.name,
-                    'drop_dist': order.drop_dist.name,
-                    'drop_house': order.drop_house,
-                    'status': order.status,
-                    'driver': order.order_service[0].driver.name,
-                    'car_num': order.order_service[0].driver.car_id,
-                    'cost': price,
-                }})
+                try:
+                    orders.append({order.id: {
+                        'time': order.order_time,
+                        'board_street': order.boarding_st.name,
+                        'board_dist': order.boarding_dist.name,
+                        'board_house': order.boarding_house,
+                        'drop_street': order.drop_st.name,
+                        'drop_dist': order.drop_dist.name,
+                        'drop_house': order.drop_house,
+                        'status': order.status,
+                        'driver': order.order_service[0].driver.name,
+                        'car_num': order.order_service[0].driver.car_id,
+                        'cost': price,
+                    }})
+                except:
+                    pass
         orders_str = []
         for i, ord in enumerate(orders):
             # for order in ord:

@@ -7,7 +7,7 @@ from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QSiz
 from models import sql_model
 
 
-
+# TODO: обработать водителя (пендинг регистрации)
 
 # Подкласс QMainWindow для настройки главного окна приложения
 class MainWindow(QMainWindow):
@@ -41,10 +41,10 @@ class MainWindow(QMainWindow):
                     sql_model.Driver.login == username_to_query).all()
                 if users_with_desired_username:
                     if users_with_desired_username[0].pswd == self.pswd_e.text():
-                        from qt_gui import OrderClientWindow
+                        from qt_gui import OrderDriverWindow
                         self.hide()
-                        self.order_client = OrderClientWindow(self.dbconn, self, users_with_desired_username[0].id)
-                        self.order_client.show()
+                        self.order_driver = OrderDriverWindow(self.dbconn, self, users_with_desired_username[0].id)
+                        self.order_driver.show()
                     else:
                         info_box = QMessageBox()
                         info_box.setIcon(QMessageBox.Icon.Information)

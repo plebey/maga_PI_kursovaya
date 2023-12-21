@@ -27,7 +27,7 @@ class MyListModel(QAbstractListModel):
 class HistoryDriverWindow(QMainWindow):
     def __init__(self, dbconn: dict, logWindow, user_id):
         super().__init__()
-        loadUi("qt_ui/order_history.ui", self)
+        loadUi("qt_ui/order_history_driver.ui", self)
         self.dbconn = dbconn
         self.logWind = logWindow
         self.user_id = user_id
@@ -45,45 +45,47 @@ class HistoryDriverWindow(QMainWindow):
         # self.regButton.clicked.connect(self.register_user)
 
     def account_btn_click(self):
-        from qt_gui import AccountClientWindow
+        from qt_gui import AccountDriverWindow
         self.hide()
-        self.account_client = AccountClientWindow(self.dbconn, self, self.user_id)
-        self.account_client.show()
+        self.account_driver = AccountDriverWindow(self.dbconn, self, self.user_id)
+        self.account_driver.show()
 
     def order_btn_click(self):
-        from qt_gui import OrderClientWindow
+        from qt_gui import OrderDriverWindow
         self.hide()
-        self.order_client = OrderClientWindow(self.dbconn, self, self.user_id)
-        self.order_client.show()
+        self.order_driver = OrderDriverWindow(self.dbconn, self, self.user_id)
+        self.order_driver.show()
 
     def update_list_view(self):
         query_result = (
             self.dbconn['sql']
-            .query(Client)
-            .filter(Client.id == self.user_id)
+            .query(Driver)
+            .filter(Driver.id == self.user_id)
             .all()
         )
         orders = []
-        for elem in query_result:
-            for i, order in enumerate(elem.orders):
-                for service in order.order_service:
-                    price = 0
-                    for tax in service.taximetr:
-                        price = price + (tax.value * tax.param.price)
 
-                orders.append({order.id: {
-                    'time': order.order_time,
-                    'board_street': order.boarding_st.name,
-                    'board_dist': order.boarding_dist.name,
-                    'board_house': order.boarding_house,
-                    'drop_street': order.drop_st.name,
-                    'drop_dist': order.drop_dist.name,
-                    'drop_house': order.drop_house,
-                    'status': order.status,
-                    'driver': order.order_service[0].driver.name,
-                    'car_num': order.order_service[0].driver.car_id,
-                    'cost': price,
-                }})
+        for driver in query_result:
+            for i, ord_serv in enumerate(driver.order_service):
+                cost = 0
+                for tax in ord_serv.taximetr:
+                    cost = cost + (tax.value * tax.param.price)
+                cost = float(cost) * 0.9
+
+                orders.append({ord_serv.order.id: {
+                    'time': ord_serv.order.order_time,
+                    'board_street': ord_serv.order.boarding_st.name,
+                    'board_dist': ord_serv.order.boarding_dist.name,
+                    'board_house': ord_serv.order.boarding_house,
+                    'drop_street': ord_serv.order.drop_st.name,
+                    'drop_dist': ord_serv.order.drop_dist.name,
+                    'drop_house': ord_serv.order.drop_house,
+                    'status': ord_serv.order.status,
+                    'client': ord_serv.order.client.ph_num,
+                    'cl_name': ord_serv.order.client.name,
+                    'cost': cost,
+                }}
+                )
         orders_str = []
         for i, ord in enumerate(orders):
             # for order in ord:
@@ -94,8 +96,8 @@ class HistoryDriverWindow(QMainWindow):
 Время заявки: {order['time'].strftime("%Y-%m-%d %H:%M:%S")}
 Место посадки: {order['board_dist']} {order['board_street']} {order['board_house']}
 Место высадки: {order['drop_dist']} {order['drop_street']} {order['drop_house']}
-Водитель: {order['driver']}
-Номер авто: {order['car_num']}
+Клиент: {order['client']}
+Имя клиента: {order['cl_name']}
 Сумма: {order['cost']}
 Статус: {order['status']}
 '''
@@ -105,4 +107,15 @@ class HistoryDriverWindow(QMainWindow):
 
         # Создайте QListView и свяжите его с моделью данных
         self.order_history.setModel(model)
+
+    def closeEvent(self, event):
+        driver = (
+            self.dbconn['sql']
+            .query(Driver)
+            .filter(Driver.id == self.user_id)
+            .first()
+        )
+        driver.status = 'Неактивен'
+        self.dbconn['sql'].commit()
+        event.accept()
 

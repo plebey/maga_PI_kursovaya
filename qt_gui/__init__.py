@@ -6,4 +6,7 @@ from qt_gui.orderClientWindow import OrderClientWindow
 from qt_gui.accountDriverWindow import AccountDriverWindow
 from qt_gui.orderDriverWindow import OrderDriverWindow
 from qt_gui.historyDriverWindow import HistoryDriverWindow
+from qt_gui.tripDriverWindow import TripDriverWindow
+from qt_gui.tripClientWindow import TripClientWindow
+from qt_gui.feedbackWindow import FeedbackWindow
 

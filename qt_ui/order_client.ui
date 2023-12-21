@@ -402,7 +402,7 @@ QPushButton#story_btn:hover {
           <string>Дом:</string>
          </property>
         </widget>
-        <widget class="QLineEdit" name="lineEdit_2">
+        <widget class="QLineEdit" name="from_house">
          <property name="geometry">
           <rect>
            <x>80</x>
@@ -944,7 +944,7 @@ font: 9pt &quot;MS Shell Dlg 2&quot;;</string>
           </rect>
          </property>
         </widget>
-        <widget class="QLineEdit" name="lineEdit">
+        <widget class="QLineEdit" name="to_house">
          <property name="geometry">
           <rect>
            <x>80</x>
@@ -1007,7 +1007,7 @@ font: 9pt &quot;MS Shell Dlg 2&quot;;</string>
          </font>
         </property>
         <property name="text">
-         <string>TextLabel</string>
+         <string/>
         </property>
        </widget>
       </item>

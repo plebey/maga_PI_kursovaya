@@ -410,38 +410,6 @@ QLineEdit:disabled {
         <string>Имя:</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="edit_name">
-       <property name="geometry">
-        <rect>
-         <x>220</x>
-         <y>180</y>
-         <width>41</width>
-         <height>41</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton {
-        background-color: transparent;
-    }
-QPushButton:hover {
-        background-color: rgb(75, 75, 75);
-		border-radius: 20px;
-    }</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>img/edit.png</normaloff>img/edit.png</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>35</width>
-         <height>35</height>
-        </size>
-       </property>
-      </widget>
       <widget class="QLineEdit" name="name_e">
        <property name="enabled">
         <bool>false</bool>
@@ -578,38 +546,6 @@ QLineEdit:disabled {
         <string>Банковская карта:</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="edit_card">
-       <property name="geometry">
-        <rect>
-         <x>220</x>
-         <y>380</y>
-         <width>41</width>
-         <height>41</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton {
-        background-color: transparent;
-    }
-QPushButton:hover {
-        background-color: rgb(75, 75, 75);
-		border-radius: 20px;
-    }</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>img/edit.png</normaloff>img/edit.png</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>35</width>
-         <height>35</height>
-        </size>
-       </property>
-      </widget>
       <widget class="QLineEdit" name="card_e">
        <property name="enabled">
         <bool>false</bool>
@@ -695,38 +631,6 @@ QLineEdit:disabled {
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="edit_surname">
-       <property name="geometry">
-        <rect>
-         <x>220</x>
-         <y>130</y>
-         <width>41</width>
-         <height>41</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton {
-        background-color: transparent;
-    }
-QPushButton:hover {
-        background-color: rgb(75, 75, 75);
-		border-radius: 20px;
-    }</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>img/edit.png</normaloff>img/edit.png</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>35</width>
-         <height>35</height>
-        </size>
-       </property>
-      </widget>
       <widget class="QLabel" name="label_11">
        <property name="geometry">
         <rect>
@@ -779,7 +683,7 @@ QLineEdit:disabled {
         <string/>
        </property>
       </widget>
-      <widget class="QLineEdit" name="pname_e_2">
+      <widget class="QLineEdit" name="bday_e">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -850,7 +754,7 @@ QLineEdit:disabled {
         <string>Номер авто:</string>
        </property>
       </widget>
-      <widget class="QLineEdit" name="card_e_2">
+      <widget class="QLineEdit" name="car_num_e">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -902,7 +806,7 @@ QLineEdit:disabled {
         <string>Марка авто:</string>
        </property>
       </widget>
-      <widget class="QLineEdit" name="card_e_3">
+      <widget class="QLineEdit" name="car_name_e">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -933,6 +837,25 @@ QLineEdit:disabled {
        </property>
        <property name="text">
         <string/>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_15">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>570</y>
+         <width>251</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>*тел. поддержки: 89885441414</string>
        </property>
       </widget>
      </widget>

@@ -7,7 +7,7 @@ from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QSizePolicy, QMessageBox
 from sqlalchemy import text, select, desc
 from models import sql_model
-from models.sql_model import Client
+from models.sql_model import Client, Driver
 
 
 class AccountDriverWindow(QMainWindow):
@@ -19,9 +19,7 @@ class AccountDriverWindow(QMainWindow):
         self.user_id = user_id
         self.edit_login.clicked.connect(self.login_edit_click)
         self.edit_pswd.clicked.connect(self.pswd_edit_click)
-        self.edit_name.clicked.connect(self.name_edit_click)
         self.edit_ph.clicked.connect(self.ph_edit_click)
-        self.edit_card.clicked.connect(self.card_edit_click)
 
         self.acc_data_insert()
         self.story_btn.clicked.connect(self.history_btn_click)
@@ -36,38 +34,43 @@ class AccountDriverWindow(QMainWindow):
         # self.regButton.clicked.connect(self.register_user)
 
     def history_btn_click(self):
-        from qt_gui import HistoryClientWindow
+        from qt_gui import HistoryDriverWindow
         self.hide()
-        self.history_client = HistoryClientWindow(self.dbconn, self, self.user_id)
-        self.history_client.show()
+        self.history_driver = HistoryDriverWindow(self.dbconn, self, self.user_id)
+        self.history_driver.show()
 
     def order_btn_click(self):
-        from qt_gui import OrderClientWindow
+        from qt_gui import OrderDriverWindow
         self.hide()
-        self.order_client = OrderClientWindow(self.dbconn, self, self.user_id)
-        self.order_client.show()
+        self.order_driver = OrderDriverWindow(self.dbconn, self, self.user_id)
+        self.order_driver.show()
 
     def acc_data_insert(self):
         query_result = (
             self.dbconn['sql']
-            .query(Client)
-            .filter(Client.id == self.user_id)
+            .query(Driver)
+            .filter(Driver.id == self.user_id)
             .all()
         )
-        for client in query_result:
-            self.login_e.setText(client.login)
-            self.pswd_e.setText(client.pswd)
-            self.name_e.setText(client.name)
-            self.ph_e.setText(client.ph_num)
-            self.card_e.setText(client.card_num)
+        for driver in query_result:
+            self.login_e.setText(driver.login)
+            self.pswd_e.setText(driver.pswd)
+            self.surname_e.setText(driver.surname)
+            self.name_e.setText(driver.name)
+            self.pname_e.setText(driver.p_name)
+            self.surname_e.setText(driver.surname)
+            self.bday_e.setText(driver.birth_date.strftime("%Y-%m-%d"))
+            self.ph_e.setText(driver.ph_num)
+            self.car_num_e.setText(driver.car_id)
+            self.car_name_e.setText(driver.car.name)
 
     def login_edit_click(self):
         if self.login_e.isEnabled():
             text = self.login_e.text()
             client = (
                 self.dbconn['sql']
-                .query(Client)
-                .filter(Client.id == self.user_id)
+                .query(Driver)
+                .filter(Driver.id == self.user_id)
                 .first()
             )
             client.login = text
@@ -81,8 +84,8 @@ class AccountDriverWindow(QMainWindow):
             text = self.pswd_e.text()
             client = (
                 self.dbconn['sql']
-                .query(Client)
-                .filter(Client.id == self.user_id)
+                .query(Driver)
+                .filter(Driver.id == self.user_id)
                 .first()
             )
             client.pswd = text
@@ -91,28 +94,13 @@ class AccountDriverWindow(QMainWindow):
         else:
             self.pswd_e.setEnabled(True)
 
-    def name_edit_click(self):
-        if self.name_e.isEnabled():
-            text = self.name_e.text()
-            client = (
-                self.dbconn['sql']
-                .query(Client)
-                .filter(Client.id == self.user_id)
-                .first()
-            )
-            client.name = text
-            self.dbconn['sql'].commit()
-            self.name_e.setEnabled(False)
-        else:
-            self.name_e.setEnabled(True)
-
     def ph_edit_click(self):
         if self.ph_e.isEnabled():
             text = self.ph_e.text()
             client = (
                 self.dbconn['sql']
-                .query(Client)
-                .filter(Client.id == self.user_id)
+                .query(Driver)
+                .filter(Driver.id == self.user_id)
                 .first()
             )
             client.ph_num = text
@@ -121,17 +109,14 @@ class AccountDriverWindow(QMainWindow):
         else:
             self.ph_e.setEnabled(True)
 
-    def card_edit_click(self):
-        if self.card_e.isEnabled():
-            text = self.card_e.text()
-            client = (
-                self.dbconn['sql']
-                .query(Client)
-                .filter(Client.id == self.user_id)
-                .first()
-            )
-            client.card_num = text
-            self.dbconn['sql'].commit()
-            self.card_e.setEnabled(False)
-        else:
-            self.card_e.setEnabled(True)
+    def closeEvent(self, event):
+        driver = (
+            self.dbconn['sql']
+            .query(Driver)
+            .filter(Driver.id == self.user_id)
+            .first()
+        )
+        driver.status = 'Неактивен'
+        self.dbconn['sql'].commit()
+        event.accept()
+
